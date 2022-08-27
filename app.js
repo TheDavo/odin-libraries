@@ -144,6 +144,7 @@ let library = new Library();
 const addNewBookBtn = document.getElementById('add-new-book-btn');
 const deleteAllBooksBtn = document.getElementById('delete-all-books-btn');
 const addNewBookForm = document.querySelector('.new-book-form');
+const snackbar = document.getElementById('snackbar');
 
 // EVENT LISTENERS ON UI ELEMENTS
 addNewBookBtn.addEventListener('click', () => {
@@ -162,5 +163,14 @@ addNewBookForm.addEventListener('submit', (event) => {
   const genre = formData.get('bookGenre');
   const hasRead = formData.get('hasReadBook');
   const newBook = new Book(title, author, genre, hasRead);
-  library.addBookToLibrary(newBook);
+  if (!library.addBookToLibrary(newBook)) {
+    showSnackbar();
+  }
 });
+
+const showSnackbar = () => {
+  snackbar.classList.toggle('show');
+  setTimeout(() => {
+    snackbar.classList.toggle('show');
+  }, 3000);
+};
