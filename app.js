@@ -8,18 +8,26 @@
  * @param {string} genre
  */
 
-function Book(title, author, hasRead, genre) {
+function Book(title, author, genre = 'Not Set', hasRead = false) {
   this.title = title;
   this.author = author;
-  this.hasRead = hasRead;
   this.genre = genre;
+  this.hasRead = hasRead;
   this.bookID = `${author}_${title}`;
 }
 
-Book.prototype.changeReadStatus = function (status) {
-  this.hasRead = status;
+Book.prototype.changeReadStatus = function () {
+  this.hasRead = !this.hasRead;
+  console.log(this.hasRead);
+  this.changeReadStatusDOM();
 };
 
+Book.prototype.changeReadStatusDOM = function () {
+  const readButton = document.querySelector(`#${this.bookID} button`);
+  if (readButton) {
+    readButton.innerHTML = this.hasRead ? 'READ' : 'NOT READ';
+  }
+};
 /**
  * Generates the HTML for a book
  * @returns {HTMLDivElement} The book's DOM representation
@@ -33,6 +41,14 @@ Book.prototype.buildDOM = function () {
   const titleP = document.createElement('p');
   const genreP = document.createElement('p');
   const hasReadButton = document.createElement('button');
+  hasReadButton.type = 'button';
+
+  // Use arrow function here to make the 'this' refer to the Book class
+  // Otherwise simply passing this.changeReadStatus refers
+  // to the hasReadButton object's changeReadStatus function, which does not exist
+  hasReadButton.addEventListener('click', () => {
+    this.changeReadStatus();
+  });
 
   authorP.innerHTML = this.author;
   titleP.innerHTML = this.title;
@@ -43,7 +59,6 @@ Book.prototype.buildDOM = function () {
   bookContainer.appendChild(titleP);
   bookContainer.appendChild(genreP);
   bookContainer.appendChild(hasReadButton);
-
   return bookContainer;
 };
 
@@ -62,8 +77,7 @@ function Library() {
  */
 Library.prototype.addBookToLibrary = function (newBook) {
   //Check to see if the book is already in our library
-  const alreadyHave =
-    this.library.filter((book) => book.bookID == newBook.bookID).length != 0; // true if library already has the book
+  const alreadyHave = this.isInLibrary(newBook); // true if library already has the book
 
   if (!alreadyHave) {
     this.library.push(newBook);
@@ -72,6 +86,12 @@ Library.prototype.addBookToLibrary = function (newBook) {
   }
 
   return false; //book already exists
+};
+
+Library.prototype.isInLibrary = function (newBook) {
+  return (
+    this.library.filter((book) => book.bookID == newBook.bookID).length != 0
+  );
 };
 
 /**
@@ -118,3 +138,29 @@ Library.prototype.removeAllBooksDOM = function () {
 };
 
 let library = new Library();
+
+////////////// USER INTERFACE //////////////
+
+const addNewBookBtn = document.getElementById('add-new-book-btn');
+const deleteAllBooksBtn = document.getElementById('delete-all-books-btn');
+const addNewBookForm = document.querySelector('.new-book-form');
+
+// EVENT LISTENERS ON UI ELEMENTS
+addNewBookBtn.addEventListener('click', () => {
+  addNewBookForm.classList.toggle('active');
+});
+
+deleteAllBooksBtn.addEventListener('click', () => {
+  library.removeAllBooks();
+});
+
+addNewBookForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(addNewBookForm);
+  const title = formData.get('bookTitle');
+  const author = formData.get('bookAuthor');
+  const genre = formData.get('bookGenre');
+  const hasRead = formData.get('hasReadBook');
+  const newBook = new Book(title, author, genre, hasRead);
+  library.addBookToLibrary(newBook);
+});
