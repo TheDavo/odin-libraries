@@ -26,6 +26,13 @@ Book.prototype.changeReadStatusDOM = function () {
   const readButton = document.querySelector(`#${this.bookID} button`);
   if (readButton) {
     readButton.innerHTML = this.hasRead ? 'READ' : 'NOT READ';
+    if (readButton.classList.contains('book-read')) {
+      readButton.classList.remove('book-read');
+      readButton.classList.add('book-not-read');
+    } else {
+      readButton.classList.add('book-read');
+      readButton.classList.remove('book-not-read');
+    }
   }
 };
 /**
@@ -50,13 +57,19 @@ Book.prototype.buildDOM = function () {
     this.changeReadStatus();
   });
 
-  authorP.innerHTML = this.author;
   titleP.innerHTML = this.title;
-  genreP.innerHTML = this.genre;
-  hasReadButton.innerHTML = this.hasRead ? 'READ' : 'NOT READ';
+  titleP.classList.add('title');
 
-  bookContainer.appendChild(authorP);
+  authorP.innerHTML = `by ${this.author}`;
+  authorP.classList.add('author');
+
+  genreP.innerHTML = this.genre;
+  genreP.classList.add('genre');
+  hasReadButton.innerHTML = this.hasRead ? 'READ' : 'NOT READ';
+  hasReadButton.classList.add(this.hasRead ? 'book-read' : 'book-not-read');
+
   bookContainer.appendChild(titleP);
+  bookContainer.appendChild(authorP);
   bookContainer.appendChild(genreP);
   bookContainer.appendChild(hasReadButton);
   return bookContainer;
@@ -164,11 +177,12 @@ addNewBookForm.addEventListener('submit', (event) => {
   const hasRead = formData.get('hasReadBook');
   const newBook = new Book(title, author, genre, hasRead);
   if (!library.addBookToLibrary(newBook)) {
-    showSnackbar();
+    showSnackbar(`${newBook.title} is already in your library!`);
   }
 });
 
-const showSnackbar = () => {
+const showSnackbar = (message) => {
+  snackbar.innerHTML = message;
   snackbar.classList.toggle('show');
   setTimeout(() => {
     snackbar.classList.toggle('show');
