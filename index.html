@@ -14,7 +14,7 @@
     </header>
     <main>
       <div class="library-actions">
-        <div class="library-actions-button">
+        <div class="library-actions-buttons">
           <button type="button" id="add-new-book-btn">Add New Book</button>
           <button type="button" id="delete-all-books-btn">Delete All</button>
         </div>
@@ -29,8 +29,10 @@
             <label for="bookGenre">Book Genre</label>
             <input type="text" name="bookGenre" id="bookGenre" required />
 
-            <label for="hasReadBook">Have you read the book?</label>
-            <input type="checkbox" name="hasReadBook" id="hasReadBook" />
+            <div>
+              <label for="hasReadBook">Have you read the book?</label>
+              <input type="checkbox" name="hasReadBook" id="hasReadBook" />
+            </div>
             <div class="form-buttons">
               <button type="submit">Add Book</button>
               <button type="reset">Cancel</button>
