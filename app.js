@@ -13,8 +13,19 @@ function Book(title, author, genre = 'Not Set', hasRead = false) {
   this.author = author;
   this.genre = genre;
   this.hasRead = hasRead;
-  this.bookID = `${author}_${title}`;
+  //this.bookID = `${author}_${title}`;
+  this.bookID = this._generateID(this.title, this.author);
 }
+
+Book.prototype._generateID = function (title, author) {
+  title = title.toLowerCase();
+  title = title.replace(' ', '-');
+
+  author = author.toLowerCase();
+  author = author.replace(' ', '-');
+
+  return author.concat('_', title);
+};
 
 Book.prototype.changeReadStatus = function () {
   this.hasRead = !this.hasRead;
