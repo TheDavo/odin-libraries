@@ -24,7 +24,8 @@ Book.prototype._generateID = function (title, author) {
   author = author.toLowerCase();
   author = author.replace(' ', '-');
 
-  return author.concat('_', title);
+  const bookID = author.concat(title).replace(/[\p{P}\p{S}]/gu, '');
+  return bookID;
 };
 
 Book.prototype.changeReadStatus = function () {
