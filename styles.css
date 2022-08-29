@@ -2,6 +2,14 @@
   margin: 0;
   padding: 0;
 }
+
+body {
+  background-color: #f1f1ec;
+  font-family: sans-serif;
+}
+
+/* HEADER */
+
 header {
   display: flex;
   justify-content: center;
@@ -9,9 +17,14 @@ header {
   padding: 1rem 0;
   margin-bottom: 1rem;
   box-shadow: 0px 0px 10px 1px black;
+  background-color: white;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+/* END HEADER */
+
+/* LIBRARY ACTIONS */
 
 .library-actions {
   display: flex;
@@ -22,10 +35,32 @@ header {
 
 .library-actions-buttons button {
   padding: 0.5rem 1rem;
+  margin: 1rem;
+  cursor: pointer;
+  transition: linear 50ms;
 }
+
+.library-actions-buttons button:active {
+  border-radius: 12px;
+}
+
+#add-new-book-btn {
+  background-color: aquamarine;
+  border: 1px solid black;
+}
+
+#delete-all-books-btn {
+  background-color: salmon;
+  border: 1px solid black;
+}
+
+/* END LIBRARY ACTIONS */
+
+/* NEW BOOK FORM */
 
 .new-book-form-container {
   margin: 1rem;
+  min-width: 50%;
 }
 
 .new-book-form.active {
@@ -34,128 +69,73 @@ header {
   flex-direction: column;
 }
 
-#add-new-book-btn {
-  background-color: aquamarine;
-  border: 1px solid black;
-}
-
 .new-book-form {
   display: none;
 }
 
-.new-book-form.active input {
+.new-book-form input[type='text'] {
   margin-bottom: 0.5rem;
+  width: 100%;
+  padding: 10px 0 10px 20px;
 }
 
-#delete-all-books-btn {
-  background-color: salmon;
-  border: 1px solid black;
+.new-book-form div {
+  margin: 0.25rem;
 }
 
 .form-buttons {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin: 0;
+  padding: 0;
 }
 
 .form-buttons button {
-  margin: 0rem 0.25rem;
+  margin: 1rem;
+  padding: 0.5rem 0;
+  cursor: pointer;
 }
+
+/* END NEW BOOK FORM */
 
 .active {
   display: block;
 }
 
+/* LIBRARY */
+
 .library {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  align-items: end;
+  gap: 1rem;
+  margin: 1rem;
 }
 
-/* Snackbar CSS from a w3schools tutorial */
-/* The snackbar - position it at the bottom and in the middle of the screen */
-#snackbar {
-  visibility: hidden; /* Hidden by default. Visible on click */
-  min-width: 250px; /* Set a default minimum width */
-  background-color: #333; /* Black background color */
-  color: #fff; /* White text color */
-  text-align: center; /* Centered text */
-  border-radius: 10px;
-  border: 3px solid rgb(100, 0, 0);
-  padding: 16px; /* Padding */
-  position: fixed; /* Sit on top of the screen */
-  z-index: 1; /* Add a z-index if needed */
-  top: 30px; /* 30px from the bottom */
-  left: 50%;
-  transform: translateX(-50%);
-}
+/* END LIBRARY */
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
-#snackbar.show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-  However, delay the fade out process for 2.5 seconds */
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-/* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
-  from {
-    top: 0;
-    opacity: 0;
-  }
-  to {
-    top: 30px;
-    opacity: 1;
-  }
-}
-
-@keyframes fadein {
-  from {
-    top: 0;
-    opacity: 0;
-  }
-  to {
-    top: 30px;
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes fadeout {
-  from {
-    top: 30px;
-    opacity: 1;
-  }
-  to {
-    top: 0;
-    opacity: 0;
-  }
-}
-
-@keyframes fadeout {
-  from {
-    top: 30px;
-    opacity: 1;
-  }
-  to {
-    top: 0;
-    opacity: 0;
-  }
-}
-
-/* START BOOK CARD STYLING */
+/* BOOK CARD */
 
 .book {
-  margin: 1rem;
+  height: max-content;
   padding: 1rem 0;
-  border-radius: 10px;
-  border: 1px solid black;
+  border: 3px solid brown;
 }
 
-.book p {
-  margin: 0.25rem 0;
+.book p,
+.book button {
+  margin: 0.25rem 0.25rem;
+  padding: 10px;
 }
 
 .book .title {
+  /* writing-mode: vertical-lr;
+  transform: rotate(180deg); */
   text-decoration: underline;
+  font-size: 2rem;
+}
+
+.book .author {
+  border-top: 3px solid brown;
 }
